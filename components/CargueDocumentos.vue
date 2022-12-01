@@ -88,24 +88,12 @@
          </tr>
        <tr><td colspan="2">
         <v-file-input
-          v-model="eps"
+          v-model="pension"
           outlined
           dense
           required
         ></v-file-input>
         </td></tr>
-        <tr>
-          <td colspan="2">
-            <v-btn
-              color="success"
-              block
-              class="mr-4"
-              @click="redireccionar"
-            >
-              ACEPTAR
-            </v-btn>
-          </td>
-        </tr>
       </tbody>
     </template>
   </v-simple-table>

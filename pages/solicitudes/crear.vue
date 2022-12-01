@@ -27,6 +27,7 @@
                 v-model="solicitud.num_doc"
                 :rules="regla"
                 label="Número Documento"
+                max="10"
                 type="number"
                 outlined
                 required
@@ -36,6 +37,7 @@
                 v-model="solicitud.fecha_nac"
                 :rules="regla"
                 label="Fecha Nacimiento"
+                @change="verifica"
                 type="date"
                 outlined
                 required
@@ -46,6 +48,7 @@
                 :rules="regla"
                 label="Teléfono"
                 type="number"
+                :counter="10"
                 outlined
                 required
               ></v-text-field>
@@ -169,12 +172,32 @@ export default {
   },
 
   methods: {
+    validarFecha(fecha1) {
+      let fecha2 = new Date()
+        fecha2.toISOString().split('T')[0]
+      if (fecha1 > fecha2) {
+        return true;
+      }
+      return false;
+    },
+
     async store() {
       if (!this.$refs.form.validate()) {
         return;
       }
 
       try {
+
+      if (
+        this.validarFecha(this.solicitud.fecha_nac)
+      ) {
+        window.$nuxt.$swal.fire({
+          text: "La fecha nacimiento es mayor a la fecha actual",
+          icon: "warning",
+          confirmButtonText: "Aceptar",
+        });
+        return;
+      }
 
         let datos = await this.$http.$post("solicitudes/crear", this.solicitud);
         if (datos.status == "success") {
